@@ -1,1 +1,1 @@
-web: gunicorn StockDashboard:app
+web: gunicorn StockDashboard:server

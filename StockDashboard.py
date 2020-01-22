@@ -11,6 +11,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+server = app.server
+
 colors = {
     'backgroundColor': '#011627',
     'text': '#FDFFFC'
@@ -412,8 +414,8 @@ def update_balance_sheet(n_clicks, ticker):
         return html.Div('Graph unavailable')
 
 
-# if __name__ == '__main__':
-#     app.run_server(debug=True)
+if __name__ == '__main__':
+    app.run_server(debug=True)
 
 
 
