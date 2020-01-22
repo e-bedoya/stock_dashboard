@@ -412,8 +412,8 @@ def update_balance_sheet(n_clicks, ticker):
         return html.Div('Graph unavailable')
 
 
-if __name__ == '__main__':
-    app.run_server(debug=True)
+# if __name__ == '__main__':
+#     app.run_server(debug=True)
 
 
 
