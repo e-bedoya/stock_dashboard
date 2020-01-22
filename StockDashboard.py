@@ -14,7 +14,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 colors = {
-    'backgroundColor': '#011627',
+    'background': '#011627',
     'text': '#FDFFFC'
 }
 app.layout = html.Div(style={'backgroundColor': '#011627', 'margin': -10}, children=[
@@ -68,7 +68,7 @@ app.layout = html.Div(style={'backgroundColor': '#011627', 'margin': -10}, child
     ], style={'color': colors['text'],
                     'fontSize': 14, 'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
 
-    # empty Div for border buffer, may delete this
+    # empty Div for border buffer
     html.Div([], style={'backgroundColor': '#011627', 'color': colors['text'],
                     'fontSize': 40, 'margin': 0, 'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'height': 30}),
 
@@ -83,7 +83,7 @@ app.layout = html.Div(style={'backgroundColor': '#011627', 'margin': -10}, child
 
     ], style={'color': colors['text'],
                     'fontSize': 14, 'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
-    # empty Div for border buffer, may delete this
+    # empty Div for border buffer
     html.Div([], style={'backgroundColor': '#011627', 'color': colors['text'],
                     'fontSize': 40, 'margin': 0, 'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'height': 30})
 ])
@@ -249,7 +249,7 @@ def update_income_statement(n_clicks, ticker):
                        height=35))
         ])
 
-        fig.update_layout(height=400,
+        fig.update_layout(height=400, width=675,
             margin=dict(l=0, r=0, t=0, b=0))
 
         return dcc.Graph(figure=fig)
@@ -295,6 +295,7 @@ def update_income_statement_graph(n_clicks, ticker):
                                      tickformat='%Y'),
                           margin=dict(l=0, r=0, t=40, b=10),
                           height=400,
+                          width=675,
                           )
         return dcc.Graph(figure=fig)
     except:
@@ -347,6 +348,7 @@ def balance_sheet_graph(n_clicks, ticker):
                                      tickformat='%Y'),
                           margin=dict(l=40, r=0, t=40, b=10),
                           height=400,
+                          width=675,
                           )
         return dcc.Graph(figure=fig)
     except:
@@ -406,7 +408,7 @@ def update_balance_sheet(n_clicks, ticker):
                        height=35))
         ])
 
-        fig.update_layout(height=400,
+        fig.update_layout(height=400, width=675,
                           margin=dict(l=0, r=0, t=0, b=0))
 
         return dcc.Graph(figure=fig)
@@ -416,21 +418,3 @@ def update_balance_sheet(n_clicks, ticker):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-
-# Exception Handling ######
-
-# One pattern is to update the children property of a parent div instead of the attribute of your actual component. Then, your callback looks like:
-
-'''
-
-@app.callback(Output('container', 'children'), [...])
-def update_output(...)
-    try:
-         # ...
-         return dcc.Graph(...) # or any other component
-    except:
-          return html.Div('An error occurred') # full control over the error UI
-
-'''
