@@ -1,9 +1,14 @@
 # stock_dashboard
-Dash web application for visualizing stock data. 
+
+Dash web application for visualizing stock data with interactive graphs. 
+Double click on bar graph legends to isolate/select specific line items from financial statements.
 
 Visit the web application here: 
 
 https://bedoya-stocks.herokuapp.com
+
+
+
 
 
 Note:
