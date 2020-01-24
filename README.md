@@ -1,4 +1,4 @@
-# stock_dashboard
+# Stock Dashboard
 
 Dash web application for visualizing stock data with interactive graphs. 
 Double click on bar graph legends to isolate/select specific line items from financial statements.
