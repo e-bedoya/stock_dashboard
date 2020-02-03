@@ -6,6 +6,7 @@ import yfinance as yf
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import plotly.graph_objects as go
+import random
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -17,11 +18,35 @@ colors = {
     'background': '#011627',
     'text': '#FDFFFC'
 }
+
+tabs_styles = {
+    'height': '44px'
+}
+tab_style = {
+    'borderBottom': '1px solid #d6d6d6',
+    'padding': '6px',
+    'fontWeight': 'bold',
+    'backgroundColor': '#999999',
+    'color': 'white',
+}
+
+tab_selected_style = {
+    'borderTop': '1px solid #d6d6d6',
+    'borderBottom': '1px solid #d6d6d6',
+    'backgroundColor': '#0088cc',
+    'color': 'white',
+    'padding': '6px'}
+
+co_list = ['GS', 'BAC', 'JPM', 'LUV', 'IBM', 'AMZN']
+
+co = random.choice(co_list)
+
 app.layout = html.Div(style={'backgroundColor': '#011627', 'margin': -10}, children=[
 
-    html.Div([
+
+    html.Div(style={'min-width': '100vh'}, children=[
         html.Div([
-            dcc.Input(id='stock-input', value='GS', type='text', style={'background': '#999999', 'marginTop': 10, 'marginLeft': 10}),
+            dcc.Input(id='stock-input', value=co, type='text', style={'background': '#999999', 'marginTop': 10, 'marginLeft': 10}),
             html.Button(id='submit-button', n_clicks=0, children='Submit', style={'color': colors['text'], 'marginTop': 10, 'marginLeft': 5}),
         ], className='six columns'),
 
@@ -31,7 +56,7 @@ app.layout = html.Div(style={'backgroundColor': '#011627', 'margin': -10}, child
             style={
                 'textAlign': 'right',
                 'color': colors['text'],
-                'marginTop': 10, 'marginRight': 10
+                'marginTop': 10, 'marginRight': 10,
             }
         )
     ]),
@@ -41,53 +66,94 @@ app.layout = html.Div(style={'backgroundColor': '#011627', 'margin': -10}, child
                 style={
                     'textAlign': 'right',
                     'color': colors['text'],
-                    'fontSize': 40
+                    'fontSize': 40,
+
                 }
         ),
 
         html.Img(id='company-logo', height='60',
                  style={
-                     'marginLeft': 20
+                     'textAlign': 'left',
+                    'justifyContent': 'left',
+                    'marginLeft':20
                  }
         )
-    ], style={'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
+    ], style={'width':'100%','min-width': '130vh', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
 
     html.Div([
         dcc.Graph(id='stock-chart')
-    ], style={'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
+    ], style={'width':'100%', 'min-width':'50vh', 'alignItems': 'center', 'justifyContent': 'center'}),
 
     html.Div([
-        html.Div(id='container', children=[
-            dcc.Graph(id='income-statement-table')
-        ], className='six columns', style={'height':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
+        dcc.Tabs(style={'width':'90vh'}, children=[
+            dcc.Tab(label='Income Statement', style=tab_style, selected_style=tab_selected_style, children=[
+                # empty Div for border buffer
+                html.Div([], style={'backgroundColor': '#011627', 'color': colors['text'],
+                                'fontSize': 40, 'margin': 0, 'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'height': 30}),
 
-        html.Div(id='container2', children=[
-            dcc.Graph(id='income-statement-graph')
-        ], className='six columns', style={'height':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'})
+                html.Div([
+                    html.Div(id='container', children=[
+                        dcc.Graph(id='income-statement-table', style={'width':'100%'})
+                    ], className='six columns', style={'height': '100%',
+                                                       # 'display': 'flex',
+                                                       'alignItems': 'center',
+                                                       'justifyContent': 'center'}),
 
-    ], style={'color': colors['text'],
-                    'fontSize': 14, 'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
+                    html.Div(id='container2', children=[
+                        dcc.Graph(id='income-statement-graph', style={'width':'100%'})
+                    ], className='six columns', style={'height': '100%',
+                                                       # 'display': 'flex',
+                                                       'alignItems': 'center',
+                                                       'justifyContent': 'center'})
 
+                ], style={'color': colors['text'],
+                          'fontSize': 14, 'width': '100%',
+                          'display': 'flex',
+                          'alignItems': 'center',
+                          'justifyContent': 'center'}),
+
+
+
+            ]),
+
+            dcc.Tab(label='Balance Sheet', style=tab_style, selected_style=tab_selected_style, children=[
+                # empty Div for border buffer
+                html.Div([], style={'backgroundColor': '#011627', 'color': colors['text'],
+                                'fontSize': 40, 'margin': 0, 'width':'100%',
+                                    'display': 'flex',
+                                    'alignItems': 'center',
+                                    'justifyContent': 'center',
+                                    'height': 30}),
+
+                html.Div([
+                    html.Div(id='container3', children=[
+                        dcc.Graph(id='balance-sheet-graph', style={'width':'100%'})
+                    ], className='six columns', style={'height':'100%',
+                                                       # 'display': 'flex',
+                                                       'alignItems': 'center',
+                                                       'justifyContent': 'center'}),
+
+                    html.Div(id='container4', children=[
+                        dcc.Graph(id='balance-sheet-table', style={'width':'100%'})
+                    ], className='six columns', style={'height':'100%',
+                                                       # 'display': 'flex',
+                                                       'alignItems': 'center',
+                                                       'justifyContent': 'center'}),
+
+                ], style={'color': colors['text'],
+                                'fontSize': 14, 'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
+
+
+
+            ])
+
+        ])
+    ]),
     # empty Div for border buffer
     html.Div([], style={'backgroundColor': '#011627', 'color': colors['text'],
                     'fontSize': 40, 'margin': 0, 'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'height': 30}),
 
-    html.Div([
-        html.Div(id='container3', children=[
-            dcc.Graph(id='balance-sheet-graph')
-        ], className='six columns', style={'height':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
-
-        html.Div(id='container4', children=[
-            dcc.Graph(id='balance-sheet-table')
-        ], className='six columns', style={'height':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
-
-    ], style={'color': colors['text'],
-                    'fontSize': 14, 'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
-    # empty Div for border buffer
-    html.Div([], style={'backgroundColor': '#011627', 'color': colors['text'],
-                    'fontSize': 40, 'margin': 0, 'width':'100%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'height': 30})
 ])
-
 
 
 @app.callback(
@@ -122,7 +188,7 @@ def update_co_logo(n_clicks, ticker):
 )
 def update_stock_chart(n_clicks, ticker):
     try:
-        start = datetime.today() - relativedelta(years=10)
+        start = datetime.today() - relativedelta(years=5)
         end = datetime.today()
 
         stock = yf.Ticker(ticker)
@@ -196,7 +262,9 @@ def update_stock_chart(n_clicks, ticker):
                 tickprefix="$",
                 type="linear",
                 domain=[0.25, 1],
-                showgrid=False
+                showgrid=False,
+                autorange=True,
+                fixedrange=False
             ),
 
         )
@@ -250,7 +318,7 @@ def update_income_statement(n_clicks, ticker):
         ])
 
         fig.update_layout(height=400, width=675,
-            margin=dict(l=0, r=0, t=0, b=0))
+                          margin=dict(l=0, r=0, t=0, b=0))
 
         return dcc.Graph(figure=fig)
     except:
@@ -415,6 +483,6 @@ def update_balance_sheet(n_clicks, ticker):
     except:
         return html.Div('Graph unavailable')
 
-    
+
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
